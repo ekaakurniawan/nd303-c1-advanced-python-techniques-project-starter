@@ -110,7 +110,7 @@ if __name__ == '__main__':
         print(f'File {var_args.get("filename")} not found, please try another file name.')
         sys.exit()
     except Exception as e:
-        print(Exception)
+        print(e)
         sys.exit()
 
     # Build Query
