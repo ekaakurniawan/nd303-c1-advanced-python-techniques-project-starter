@@ -5,3 +5,6 @@
 
 2. [Fix error message that file not found](https://github.com/ekaakurniawan/nd303-c1-advanced-python-techniques-project-starter/commit/211ff1177294d700fbba03c9e8aeb157eec513f3)
    - Use `filename` variable as the result of the selection between user argument and default file name. Printing user argument will show None for default file name.
+
+3. [Fix Unused Variable in verify_date Function](https://github.com/ekaakurniawan/nd303-c1-advanced-python-techniques-project-starter/commit/10498a06b960e268ffc5ef2265176808b6844e53)
+   - Replace unused variable with underscore (`_`)
