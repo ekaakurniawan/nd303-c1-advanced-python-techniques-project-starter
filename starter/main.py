@@ -49,7 +49,7 @@ def verify_date(datetime_str):
     :return: str:           String representing datetime in %Y-%m-%d format
     """
     try:
-        date_time_obj = datetime.strptime(datetime_str, "%Y-%m-%d")
+        _ = datetime.strptime(datetime_str, "%Y-%m-%d")
         return datetime_str
     except ValueError:
         error_message = f'Not a valid date: "{datetime_str}"'
