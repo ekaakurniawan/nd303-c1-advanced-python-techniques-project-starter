@@ -5,7 +5,7 @@ from exceptions import UnsupportedFeature
 from models import NearEarthObject, OrbitPath
 
 
-class DateSearch(Enum):
+class DateSearchType(Enum):
     """
     Enum representing supported date search on Near Earth Objects.
     """
@@ -17,7 +17,7 @@ class DateSearch(Enum):
         """
         :return: list of string representations of DateSearchType enums
         """
-        return list(map(lambda output: output.value, DateSearch))
+        return list(map(lambda output: output.value, DateSearchType))
 
 
 class Query(object):
