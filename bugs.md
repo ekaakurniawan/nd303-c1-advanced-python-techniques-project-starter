@@ -8,3 +8,6 @@
 
 3. [Fix Unused Variable in verify_date Function](https://github.com/ekaakurniawan/nd303-c1-advanced-python-techniques-project-starter/commit/10498a06b960e268ffc5ef2265176808b6844e53)
    - Replace unused variable with underscore (`_`)
+
+4. [Fix Duplicated DateSearch Name](https://github.com/ekaakurniawan/nd303-c1-advanced-python-techniques-project-starter/commit/e222e8313e986982f8a6ca5b1d055a03cf3dfb6e)
+   - Rename DateSearch class into DateSearchType class as the name will be used in Query function.
