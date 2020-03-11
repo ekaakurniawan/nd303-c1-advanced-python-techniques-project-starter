@@ -107,7 +107,7 @@ if __name__ == '__main__':
     try:
         db.load_data()
     except FileNotFoundError as e:
-        print(f'File {var_args.get("filename")} not found, please try another file name.')
+        print(f'File {filename} not found, please try another file name.')
         sys.exit()
     except Exception as e:
         print(e)
