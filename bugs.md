@@ -11,3 +11,6 @@
 
 4. [Fix Duplicated DateSearch Name](https://github.com/ekaakurniawan/nd303-c1-advanced-python-techniques-project-starter/commit/e222e8313e986982f8a6ca5b1d055a03cf3dfb6e)
    - Rename DateSearch class into DateSearchType class as the name will be used in Query function.
+
+5. [Rename Class Name QueryBuilder to Query](https://github.com/ekaakurniawan/nd303-c1-advanced-python-techniques-project-starter/commit/06e406ebefa31edf6185073a6f6ea0f452c1b979)
+   - Some comments use class name QueryBuilder that should be Query
