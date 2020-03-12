@@ -1,3 +1,4 @@
+import datetime
 from collections import namedtuple
 from enum import Enum
 
@@ -36,6 +37,13 @@ class Query(object):
         """
         # TODO: What instance variables will be useful for storing on the Query object?
 
+        self.date = kwargs.get('date', None)
+        self.start_date = kwargs.get('start_date', None)
+        self.end_date = kwargs.get('end_date', None)
+        self.number = kwargs.get('number', None)
+        self.filter = kwargs.get('filter', None)
+        self.return_object = kwargs.get('return_object', None)
+        
     def build_query(self):
         """
         Transforms the provided query options, set upon initialization, into a set of Selectors that the NEOSearcher
@@ -43,8 +51,22 @@ class Query(object):
 
         :return: Query.Selectors namedtuple that translates the dict of query options into a SearchOperation
         """
-
         # TODO: Translate the query parameters into a Query.Selectors object
+
+        # Construct date search
+        if self.date:
+            date_search = Query.DateSearch(type=DateSearchType.equals, values=self.date)
+        else:
+            date_search = Query.DateSearch(type=DateSearchType.between, 
+                                           values=f'{self.start_date}:{self.end_date}')
+        # Construct return objects
+        return_objects = Query.ReturnObjects[self.return_object]
+        # Construct selectors
+        selectors = Query.Selectors(date_search=date_search,
+                                    number=self.number,
+                                    filters=None,
+                                    return_object=return_objects)
+        return selectors
 
 
 class Filter(object):
@@ -122,3 +144,24 @@ class NEOSearcher(object):
         # TODO: Write instance methods that get_objects can use to implement the two types of DateSearch your project
         # TODO: needs to support that then your filters can be applied to. Remember to return the number specified in
         # TODO: the Query.Selectors as well as in the return_type from Query.Selectors
+
+        # Perform date search
+        results = []
+        if query.date_search.type == DateSearchType.equals:
+            results += self.db.neo_orbit_paths_date_to_neo[query.date_search.values]
+        elif query.date_search.type == DateSearchType.between:
+            start_date, end_date = query.date_search.values.split(':')
+            start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d")
+            end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
+            # End date inclusive
+            date_array = (start_date + datetime.timedelta(days=x) for x in range(0, (end_date-start_date).days + 1))
+            for date_object in date_array:
+                results += self.db.neo_orbit_paths_date_to_neo[date_object.strftime("%Y-%m-%d")]
+        else:
+            raise UnsupportedFeature
+
+        # Use set function to make sure the results are unique
+        results = list(set(results))
+
+        # Return requested number only
+        return results[:query.number]
