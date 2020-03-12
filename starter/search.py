@@ -41,10 +41,10 @@ class Query(object):
         Transforms the provided query options, set upon initialization, into a set of Selectors that the NEOSearcher
         can use to perform the appropriate search functionality
 
-        :return: QueryBuild.Selectors namedtuple that translates the dict of query options into a SearchOperation
+        :return: Query.Selectors namedtuple that translates the dict of query options into a SearchOperation
         """
 
-        # TODO: Translate the query parameters into a QueryBuild.Selectors object
+        # TODO: Translate the query parameters into a Query.Selectors object
 
 
 class Filter(object):
@@ -109,7 +109,7 @@ class NEOSearcher(object):
 
     def get_objects(self, query):
         """
-        Generic search interface that, depending on the details in the QueryBuilder (query) calls the
+        Generic search interface that, depending on the details in the Query (query) calls the
         appropriate instance search function, then applys any filters, with distance as the last filter.
 
         Once any filters provided are applied, return the number of requested objects in the query.return_object
