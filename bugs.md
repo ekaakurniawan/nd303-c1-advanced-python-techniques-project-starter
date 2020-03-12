@@ -14,3 +14,6 @@
 
 5. [Rename Class Name QueryBuilder to Query](https://github.com/ekaakurniawan/nd303-c1-advanced-python-techniques-project-starter/commit/06e406ebefa31edf6185073a6f6ea0f452c1b979)
    - Some comments use class name QueryBuilder that should be Query
+
+6. [Rename return_type to return_object](https://github.com/ekaakurniawan/nd303-c1-advanced-python-techniques-project-starter/commit/925be122c83dbade2b6226a32d366b7dbd690020)
+   - The correct one should be return_object
