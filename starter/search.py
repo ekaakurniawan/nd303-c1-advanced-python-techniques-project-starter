@@ -143,7 +143,7 @@ class NEOSearcher(object):
         # TODO: This is a generic method that will need to understand, using DateSearch, how to implement search
         # TODO: Write instance methods that get_objects can use to implement the two types of DateSearch your project
         # TODO: needs to support that then your filters can be applied to. Remember to return the number specified in
-        # TODO: the Query.Selectors as well as in the return_type from Query.Selectors
+        # TODO: the Query.Selectors as well as in the return_object from Query.Selectors
 
         # Perform date search
         results = []
