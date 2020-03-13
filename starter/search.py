@@ -148,7 +148,7 @@ class NEOSearcher(object):
         # Perform date search
         results = []
         if query.date_search.type == DateSearchType.equals:
-            results += self.db.neo_orbit_paths_date_to_neo[query.date_search.values]
+            results += self.db.neo_orbit_paths_date_to_neo.get(query.date_search.values, [])
         elif query.date_search.type == DateSearchType.between:
             start_date, end_date = query.date_search.values.split(':')
             start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d")
@@ -156,7 +156,7 @@ class NEOSearcher(object):
             # End date inclusive
             date_array = (start_date + datetime.timedelta(days=x) for x in range(0, (end_date-start_date).days + 1))
             for date_object in date_array:
-                results += self.db.neo_orbit_paths_date_to_neo[date_object.strftime("%Y-%m-%d")]
+                results += self.db.neo_orbit_paths_date_to_neo.get(date_object.strftime("%Y-%m-%d"), [])
         else:
             raise UnsupportedFeature
 
