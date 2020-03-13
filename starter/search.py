@@ -1,5 +1,5 @@
-import datetime
-from collections import namedtuple
+import datetime, operator
+from collections import namedtuple, defaultdict
 from enum import Enum
 
 from exceptions import UnsupportedFeature
@@ -41,7 +41,9 @@ class Query(object):
         self.start_date = kwargs.get('start_date', None)
         self.end_date = kwargs.get('end_date', None)
         self.number = kwargs.get('number', None)
-        self.filter = kwargs.get('filter', None)
+        self.filter = kwargs.get('filter', [])
+        if self.filter == None:
+            self.filter = []
         self.return_object = kwargs.get('return_object', None)
         
     def build_query(self):
@@ -59,12 +61,15 @@ class Query(object):
         else:
             date_search = Query.DateSearch(type=DateSearchType.between, 
                                            values=f'{self.start_date}:{self.end_date}')
+        # Construct filters
+        filters = Filter.create_filter_options(self.filter)
+
         # Construct return objects
         return_objects = Query.ReturnObjects[self.return_object]
         # Construct selectors
         selectors = Query.Selectors(date_search=date_search,
                                     number=self.number,
-                                    filters=None,
+                                    filters=filters,
                                     return_object=return_objects)
         return selectors
 
@@ -72,25 +77,33 @@ class Query(object):
 class Filter(object):
     """
     Object representing optional filter options to be used in the date search for Near Earth Objects.
-    Each filter is one of Filter.Operators provided with a field to filter on a value.
+    Each filter is one of Filter. Operators provided with a field to filter on a value.
     """
     Options = {
         # TODO: Create a dict of filter name to the NearEarthObject or OrbitalPath property
+        'is_hazardous': NearEarthObject.is_hazardous,
+        'diameter': NearEarthObject.diameter,
+        'distance': OrbitPath.distance
     }
 
     Operators = {
         # TODO: Create a dict of operator symbol to an Operators method, see README Task 3 for hint
+        ">": operator.gt,
+        ">=": operator.ge,
+        "=": operator.eq,
+        "<": operator.lt,
+        "<=": operator.le
     }
 
-    def __init__(self, field, object, operation, value):
+    def __init__(self, field, option, operation, value):
         """
         :param field: str representing field to filter on
-        :param object: str representing object to filter on
+        :param option: str representing option to filter on
         :param operation: str representing filter operation to perform
         :param value: str representing value to filter for
         """
         self.field = field
-        self.object = object
+        self.option = option
         self.operation = operation
         self.value = value
 
@@ -102,8 +115,30 @@ class Filter(object):
         :param filter_options: list in format ["filter_option:operation:value_of_option", ...]
         :return: defaultdict with key of NearEarthObject or OrbitPath and value of empty list or list of Filters
         """
-
         # TODO: return a defaultdict of filters with key of NearEarthObject or OrbitPath and value of empty list or list of Filters
+        
+        filters_list = []
+        for filter_option in filter_options:
+            option, operation, value = filter_option.split(':')
+
+            # Convert value from string to the respected data type
+            if option == 'is_hazardous':
+                value = (value == 'True')
+            else:
+                value = float(value)
+
+            # Create filter object
+            filter = Filter(field=None, 
+                            option=Filter.Options[option],
+                            operation=Filter.Operators[operation],
+                            value=value)
+
+            filters_list.append(filter)
+
+        filters = defaultdict(list)
+        filters[NearEarthObject] = filters_list
+
+        return filters
 
     def apply(self, results):
         """
@@ -113,6 +148,13 @@ class Filter(object):
         :return: filtered list of Near Earth Object results
         """
         # TODO: Takes a list of NearEarthObjects and applies the value of its filter operation to the results
+
+        filtered_results = []
+        for result in results:
+            if self.operation(self.option(result), self.value):
+                filtered_results.append(result)
+
+        return filtered_results
 
 
 class NEOSearcher(object):
@@ -159,6 +201,10 @@ class NEOSearcher(object):
                 results += self.db.neo_orbit_paths_date_to_neo.get(date_object.strftime("%Y-%m-%d"), [])
         else:
             raise UnsupportedFeature
+
+        # Implement filters
+        for filter in query.filters[query.return_object]:
+            results = filter.apply(results)
 
         # Use set function to make sure the results are unique
         results = list(set(results))

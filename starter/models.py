@@ -26,8 +26,20 @@ class NearEarthObject(object):
         except:
             self.estimated_diameter_min_feet = None
         self.estimated_diameter_max_feet = float(kwargs['estimated_diameter_max_feet'])
-        self.is_potentially_hazardous_asteroid = bool(kwargs['is_potentially_hazardous_asteroid'])
+        self.is_potentially_hazardous_asteroid = (kwargs['is_potentially_hazardous_asteroid'] == 'True')
         self.__orbits = []
+
+    @staticmethod
+    def diameter(neo):
+        return neo.estimated_diameter_min_kilometers
+
+    @property
+    def diameter_min_km(self):
+        return self.estimated_diameter_min_kilometers
+
+    @staticmethod
+    def is_hazardous(neo):
+        return neo.is_potentially_hazardous_asteroid
 
     @property
     def orbits(self):
@@ -69,6 +81,10 @@ class OrbitPath(object):
         self.miss_distance_kilometers = float(kwargs['miss_distance_kilometers'])
         self.miss_distance_miles = float(kwargs['miss_distance_miles'])
         self.orbiting_body = kwargs['orbiting_body']
+
+    @staticmethod
+    def distance(path):
+        return path.miss_distance_kilometers
 
     def __repr__(self):
         return self.close_approach_date
