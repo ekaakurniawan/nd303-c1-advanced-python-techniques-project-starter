@@ -84,8 +84,8 @@ class Filter(object):
 
     def __init__(self, field, object, operation, value):
         """
-        :param field:  str representing field to filter on
-        :param field:  str representing object to filter on
+        :param field: str representing field to filter on
+        :param object: str representing object to filter on
         :param operation: str representing filter operation to perform
         :param value: str representing value to filter for
         """
@@ -99,7 +99,7 @@ class Filter(object):
         """
         Class function that transforms filter options raw input into filters
 
-        :param input: list in format ["filter_option:operation:value_of_option", ...]
+        :param filter_options: list in format ["filter_option:operation:value_of_option", ...]
         :return: defaultdict with key of NearEarthObject or OrbitPath and value of empty list or list of Filters
         """
 
