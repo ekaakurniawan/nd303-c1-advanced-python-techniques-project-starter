@@ -9,8 +9,8 @@ Example: main.py display -n 10 -d 2020-01-10
 
 Search options:
 - Find N NEOs by date e.g. main.py display --return NEO -n 10 -d 2020-01-10
-- Find N NEOs between start_date and end_date  e.g. main.py display --return NEO -n 10 --start_date 2020-01-01 --end_date 2020-01-10
-- Find N NEOs between start_date and end_date with filters and output to csvfile with name 'neo_neo_data' e.g. csvfile -n 10 -f new_neo_data --start_date 2020-01-01 --end_date 2020-01-10 --filter "is_hazardous:=:False" "diameter:>:0.02" "distance:>=:50000
+- Find N NEOs between start_date and end_date e.g. main.py display --return NEO -n 10 --start_date 2020-01-01 --end_date 2020-01-10
+- Find N NEOs between start_date and end_date with filters and output to csv_file with name 'neo_neo_data' e.g. main.py csv_file -n 10 -f new_neo_data --start_date 2020-01-01 --end_date 2020-01-10 --filter "is_hazardous:=:False" "diameter:>:0.02" "distance:>=:50000"
 
 Output options: Required.
 - display: prints to stdout
