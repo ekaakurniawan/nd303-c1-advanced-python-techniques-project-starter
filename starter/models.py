@@ -23,7 +23,7 @@ class NearEarthObject(object):
         self.estimated_diameter_max_miles = float(kwargs['estimated_diameter_max_miles'])
         try:
             self.estimated_diameter_min_feet = float(kwargs['estimated_diameter_min_feet'])
-        except:
+        except ValueError:
             self.estimated_diameter_min_feet = None
         self.estimated_diameter_max_feet = float(kwargs['estimated_diameter_max_feet'])
         self.is_potentially_hazardous_asteroid = (kwargs['is_potentially_hazardous_asteroid'] == 'True')
@@ -69,7 +69,7 @@ class NearEarthObject(object):
         info = []
         for orbit in self.orbits:
             info.append(f'{self.id},{self.name},{orbit.close_approach_date}')
-        
+
         return "\n".join(info)
 
 
@@ -90,7 +90,7 @@ class OrbitPath(object):
         self.kilometers_per_hour = float(kwargs['kilometers_per_hour'])
         self.miles_per_hour = float(kwargs['miles_per_hour'])
         self.close_approach_date = kwargs['close_approach_date']
-        self.close_approach_date_full = kwargs['close_approach_date_full'] 
+        self.close_approach_date_full = kwargs['close_approach_date_full']
         self.miss_distance_astronomical = float(kwargs['miss_distance_astronomical'])
         self.miss_distance_lunar = float(kwargs['miss_distance_lunar'])
         self.miss_distance_kilometers = float(kwargs['miss_distance_kilometers'])
