@@ -150,9 +150,18 @@ class Filter(object):
         # TODO: Takes a list of NearEarthObjects and applies the value of its filter operation to the results
 
         filtered_results = []
-        for result in results:
-            if self.operation(self.option(result), self.value):
-                filtered_results.append(result)
+        # Filter based on OrbitPath variables
+        if self.option == self.Options['distance']:
+            for neo in results:
+                for orbit in neo.orbits:
+                    if self.operation(orbit.miss_distance_kilometers, self.value):
+                        filtered_results.append(neo)
+                        break
+        # Filter based on NearEarthObject variables
+        else:
+            for result in results:
+                if self.operation(self.option(result), self.value):
+                    filtered_results.append(result)
 
         return filtered_results
 

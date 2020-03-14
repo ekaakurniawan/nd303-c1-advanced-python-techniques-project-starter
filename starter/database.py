@@ -22,7 +22,6 @@ class NEODatabase(object):
         self.neo_orbit_paths_date_to_neo = {}
         self.neo_name_to_instance = {}
 
-
     def load_data(self, filename=None):
         """
         Loads data from a .csv file, instantiating Near Earth Objects and their OrbitPaths by:
@@ -52,7 +51,7 @@ class NEODatabase(object):
                     self.neo_name_to_instance[neo_orbit_path['name']] = neo
 
                 # Instantiate new orbit path
-                orbit = OrbitPath(**neo_orbit_path)
+                orbit = OrbitPath(neo.name, **neo_orbit_path)
                 if neo_orbit_path['close_approach_date'] in self.neo_orbit_paths_date_to_neo:
                     self.neo_orbit_paths_date_to_neo[neo_orbit_path['close_approach_date']].append(neo)
                 else:

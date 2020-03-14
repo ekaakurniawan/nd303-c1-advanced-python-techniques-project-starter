@@ -66,11 +66,12 @@ class OrbitPath(object):
     # TODO: You may be adding instance methods to OrbitPath to help you implement search and output data.
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, neo_name, **kwargs):
         """
         :param kwargs:    dict of attributes about a given orbit, only a subset of attributes used
         """
         # TODO: What instance variables will be useful for storing on the Near Earth Object?
+        self.neo_name = neo_name
         self.kilometers_per_second = float(kwargs['kilometers_per_second'])
         self.kilometers_per_hour = float(kwargs['kilometers_per_hour'])
         self.miles_per_hour = float(kwargs['miles_per_hour'])
