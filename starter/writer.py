@@ -1,4 +1,10 @@
 from enum import Enum
+import pathlib
+
+from models import NearEarthObject
+
+
+PROJECT_ROOT = pathlib.Path(__file__).parent.absolute()
 
 
 class OutputFormat(Enum):
@@ -38,3 +44,20 @@ class NEOWriter(object):
         # TODO: Using the OutputFormat, how can we organize our 'write' logic for output to stdout vs to csvfile
         # TODO: into instance methods for NEOWriter? Write instance methods that write() can call to do the necessary
         # TODO: output format.
+
+        # Write to screen
+        if format == OutputFormat.display.value:
+            print(NearEarthObject.get_csv_header())
+            for datum in data:
+                print(datum)
+        # Write to CSV file
+        elif format == OutputFormat.csv_file.value:
+            filename = f'{PROJECT_ROOT}/data/neo_neo_data.csv'
+            with open(filename, 'w') as f:
+                f.writelines(NearEarthObject.get_csv_header() + '\n')
+                for datum in data:
+                    f.writelines(datum.__repr__() + '\n')
+        else:
+            return False
+
+        return True

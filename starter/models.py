@@ -55,8 +55,22 @@ class NearEarthObject(object):
         # TODO: How do we connect orbits back to the Near Earth Object?
         self.__orbits.append(orbit)
 
+    @staticmethod
+    def get_csv_header():
+        """
+        :return: CSV header in string
+        """
+        return "id,name,close_approach_date"
+
     def __repr__(self):
-        return self.name
+        """
+        :return: id, name, orbits, and orbit dates
+        """
+        info = []
+        for orbit in self.orbits:
+            info.append(f'{self.id},{self.name},{orbit.close_approach_date}')
+        
+        return "\n".join(info)
 
 
 class OrbitPath(object):
@@ -88,4 +102,7 @@ class OrbitPath(object):
         return path.miss_distance_kilometers
 
     def __repr__(self):
-        return self.close_approach_date
+        """
+        :return: NEO name, miss distance in Km, and orbit date
+        """
+        return f'{self.neo_name},{self.miss_distance_kilometers},{self.close_approach_date}'
