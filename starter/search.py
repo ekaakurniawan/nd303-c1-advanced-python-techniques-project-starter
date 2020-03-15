@@ -1,4 +1,5 @@
-import datetime, operator
+import datetime
+import operator
 from collections import namedtuple, defaultdict
 from enum import Enum
 
@@ -42,10 +43,10 @@ class Query(object):
         self.end_date = kwargs.get('end_date', None)
         self.number = kwargs.get('number', None)
         self.filter = kwargs.get('filter', [])
-        if self.filter == None:
+        if self.filter is None:
             self.filter = []
         self.return_object = kwargs.get('return_object', None)
-        
+
     def build_query(self):
         """
         Transforms the provided query options, set upon initialization, into a set of Selectors that the NEOSearcher
@@ -59,7 +60,7 @@ class Query(object):
         if self.date:
             date_search = Query.DateSearch(type=DateSearchType.equals, values=self.date)
         else:
-            date_search = Query.DateSearch(type=DateSearchType.between, 
+            date_search = Query.DateSearch(type=DateSearchType.between,
                                            values=f'{self.start_date}:{self.end_date}')
         # Construct filters
         filters = Filter.create_filter_options(self.filter)
@@ -116,7 +117,7 @@ class Filter(object):
         :return: defaultdict with key of NearEarthObject or OrbitPath and value of empty list or list of Filters
         """
         # TODO: return a defaultdict of filters with key of NearEarthObject or OrbitPath and value of empty list or list of Filters
-        
+
         filters_list = []
         for filter_option in filter_options:
             option, operation, value = filter_option.split(':')
@@ -128,7 +129,7 @@ class Filter(object):
                 value = float(value)
 
             # Create filter object
-            filter = Filter(field=None, 
+            filter = Filter(field=None,
                             option=Filter.Options[option],
                             operation=Filter.Operators[operation],
                             value=value)
@@ -205,7 +206,8 @@ class NEOSearcher(object):
             start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d")
             end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
             # End date inclusive
-            date_array = (start_date + datetime.timedelta(days=x) for x in range(0, (end_date-start_date).days + 1))
+            date_array = (start_date + datetime.timedelta(days=x)
+                          for x in range(0, (end_date - start_date).days + 1))
             for date_object in date_array:
                 results += self.db.neo_orbit_paths_date_to_neo.get(date_object.strftime("%Y-%m-%d"), [])
         else:
